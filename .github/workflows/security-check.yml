@@ -1,0 +1,85 @@
+name: Skill Security Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan for sensitive information
+        run: |
+          echo "=== Scanning for sensitive information ==="
+          FAILED=0
+
+          # Patterns to detect
+          PATTERNS=(
+            'sk-[a-zA-Z0-9]{20,}'
+            'ghp_[a-zA-Z0-9]{30,}'
+            'AKIA[0-9A-Z]{16}'
+            '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
+            '1[3-9][0-9]{9}'
+            'password\s*[:=]\s*["\x27][^"\x27]{4,}'
+            'api[_-]?key\s*[:=]\s*["\x27][^"\x27]{8,}'
+            'token\s*[:=]\s*["\x27][^"\x27]{8,}'
+            'secret\s*[:=]\s*["\x27][^"\x27]{8,}'
+          )
+
+          # Skip files
+          EXCLUDE_PATTERNS=(
+            '.gitignore'
+            '.env.example'
+            'CHANGELOG.md'
+            'LICENSE'
+          )
+
+          for pattern in "${PATTERNS[@]}"; do
+            MATCHES=$(grep -rn -E "$pattern" --include='*.md' --include='*.json' --include='*.yaml' --include='*.yml' --include='*.py' . 2>/dev/null || true)
+            if [ -n "$MATCHES" ]; then
+              while IFS= read -r line; do
+                FILE=$(echo "$line" | cut -d: -f1)
+                SKIP=false
+                for exc in "${EXCLUDE_PATTERNS[@]}"; do
+                  if [[ "$FILE" == *"$exc"* ]]; then
+                    SKIP=true
+                    break
+                  fi
+                done
+                if [ "$SKIP" = false ]; then
+                  echo "::warning file=$FILE::Sensitive pattern found: $pattern"
+                  FAILED=1
+                fi
+              done <<< "$MATCHES"
+            fi
+          done
+
+          if [ "$FAILED" -eq 1 ]; then
+            echo ""
+            echo "::error::Sensitive information detected! Please sanitize before merging."
+            exit 1
+          fi
+
+          echo "=== Scan complete: No sensitive information found ==="
+
+      - name: Check skill package structure
+        run: |
+          echo "=== Checking skill package structure ==="
+          SKILL_DIRS=$(find . -name "SKILL.md" -exec dirname {} \; | sed 's|^\./||')
+          
+          for dir in $SKILL_DIRS; do
+            echo "Checking: $dir"
+            for req_file in README.md _meta.json VERSION CHANGELOG.md; do
+              if [ ! -f "$dir/$req_file" ]; then
+                echo "::warning file=$dir::$req_file is missing in $dir"
+              fi
+            done
+          done
+          
+          echo "=== Structure check complete ==="
