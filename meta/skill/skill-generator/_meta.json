@@ -1,0 +1,13 @@
+{
+  "name": "skill-generator",
+  "version": "1.0.0",
+  "category": "meta",
+  "subcategory": "skill",
+  "description": "Skill 生成器，用于创建新的 Skill 并进行质量检测",
+  "author": "Ni Changcheng",
+  "created": "2026-05-29",
+  "updated": "2026-05-29",
+  "tags": ["skill", "generator", "生成", "质量检测"],
+  "dependencies": [],
+  "repository": "https://github.com/Nichangcheng0528/Nichagncheng-skill"
+}
