@@ -1,0 +1,13 @@
+{
+  "name": "skill-uploader",
+  "version": "1.0.0",
+  "category": "meta",
+  "subcategory": "skill",
+  "description": "自动化技能上传助手，执行规范性检查、脱敏处理、GitHub上传",
+  "author": "Ni Changcheng",
+  "created": "2026-05-29",
+  "updated": "2026-05-29",
+  "tags": ["skill", "uploader", "github", "脱敏"],
+  "dependencies": [],
+  "repository": "https://github.com/Nichangcheng0528/Nichagncheng-skill"
+}
