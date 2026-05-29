@@ -1,0 +1,13 @@
+{
+  "name": "overseas-business-analytics",
+  "version": "1.0.0",
+  "category": "business",
+  "subcategory": "analytics",
+  "description": "海外业务数据分析自动化 Skill，基于 4139 字段数据字典、407 个 BI 报表进行智能分析",
+  "author": "Ni Changcheng",
+  "created": "2026-05-29",
+  "updated": "2026-05-29",
+  "tags": ["business", "analytics", "BI", "overseas", "GMV", "CC", "TMK"],
+  "dependencies": [],
+  "repository": "https://github.com/Nichangcheng0528/Nichagncheng-skill"
+}
