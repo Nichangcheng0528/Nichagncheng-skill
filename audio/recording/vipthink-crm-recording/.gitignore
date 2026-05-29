@@ -1,0 +1,30 @@
+# 环境变量和凭证文件
+.env
+.env.*
+*.local
+credentials.json
+secrets.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Node.js
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 脱敏工具生成
+.sanitized
+
+# 临时文件
+*.tmp
+*.bak
+*.log
