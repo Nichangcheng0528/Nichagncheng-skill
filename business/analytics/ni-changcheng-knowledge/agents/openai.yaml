@@ -1,0 +1,7 @@
+interface:
+  display_name: "Ni Changcheng Knowledge"
+  short_description: "K12 overseas education knowledge base with auto context injection."
+  default_prompt: "Use $ni-changcheng-knowledge to load business context and answer in Ni Changcheng style."
+
+policy:
+  allow_implicit_invocation: true
